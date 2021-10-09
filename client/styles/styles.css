@@ -1,0 +1,28 @@
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+select#pizzaPhoto option[value='pizza1'] {
+  background-image: url('../assets/pizzaPhotos/pizzaPhoto1.jpg');
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* --------------- */
+.menu-item {
+  width: calc(100% / 2);
+}
+
+.menu-item .menu-item__photo {
+  width: 100%;
+}
+
+.pizza-heat {
+  width: 100%;
+}
+.heat-item {
+  width: 25px;
+}
