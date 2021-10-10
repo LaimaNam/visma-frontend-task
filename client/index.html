@@ -15,19 +15,22 @@
         <h1>Add pizza</h1>
         <div class="add-pizza-form-wrapper">
           <form id="add-pizza-form">
-            <div>
+            <div class="name-group">
               <label for="name">Name</label>
               <input type="text" id="name" placeholder="Name" required />
+              <span class="name-error-msg error"></span>
             </div>
-            <div>
+            <div class="price-group">
               <label for="price">Price</label>
-              <input type="number" id="price" placeholder="Price" required />
+              <input type="text" id="price" placeholder="Price" required />
+              <span class="price-error-msg error"></span>
             </div>
-            <div>
+            <div class="heat-group">
               <label for="heat">Heat</label>
               <input type="number" id="heat" placeholder="Heat" />
+              <span class="heat-error-msg error"></span>
             </div>
-            <div>
+            <div class="toppings-group">
               <label for="toppings">Toppings</label>
               <input
                 type="text"
@@ -35,6 +38,7 @@
                 placeholder="Toppings"
                 required
               />
+              <span class="toppings-error-msg error"></span>
             </div>
             <select name="pizzaPhoto" id="pizzaPhoto">
               <option value="">Select pizza photo</option>
@@ -43,8 +47,8 @@
               <option value="pizza3">Pizza photo 3</option>
               <option value="pizza4">Pizza photo 4</option>
             </select>
-            <div id="selectedImg">
-              <img src="" alt="" />
+            <div>
+              <img id="selectedImg" src="" alt="" />
             </div>
             <button type="submit">Add pizza</button>
           </form>
