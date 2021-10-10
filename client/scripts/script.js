@@ -36,7 +36,7 @@ const pizzaHeatIconRenderer = (number) => {
   let heat = '';
   for (let i = 0; i < number; i++) {
     heat +=
-      '<img src="./assets/icons/chili-pepper.png" alt="" class="heat-item">';
+      '<img src="./assets/icons/chili-pepper2.png" alt="" class="heat-item">';
   }
   return heat;
 };
@@ -73,16 +73,18 @@ const renderMenu = (pizzaArray) => {
   menuOutput.innerHTML = pizzaArray.reduce((total, pizza) => {
     total += `
     <div class="menu-item" >
-      <button class="delete-item" data-id=${pizza.name}>&#128465</button>
+      <button class="delete-item" data-id=${pizza.name}>&#10005</button>
+      <div class="menu-item__photo-wrapper">
       <img src="${pizzaPhotoRender(
         pizza.photo
       )}" alt="" class="menu-item__photo" />
-      <div class="pizza-heat">${
+      </div>
+      <div class="menu-item__pizza-heat">${
         pizza.heat ? pizzaHeatIconRenderer(+pizza.heat) : ''
       }</div>
-      <h5>${pizza.name}</h5>
-      <span>${pizza.price}</span>
-      <span>${pizza.toppings.join(',')}</span>
+      <h3>${pizza.name}</h3>
+      <span>€ ${pizza.price}</span>
+      <span>${pizza.toppings.join(',')}.</span>
     </div>
       `;
 
@@ -112,7 +114,7 @@ const saveItemToSessionStorage = (e) => {
     name: pizzaName.value,
     price: Number(pizzaPrice.value).toFixed(2),
     heat: Number(pizzaHeat.value),
-    toppings: pizzaToppings.value.split(' '),
+    toppings: pizzaToppings.value.split(/,| /),
     photo: pizzaPhotoSelect.value,
   };
 
