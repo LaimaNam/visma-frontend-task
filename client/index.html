@@ -13,8 +13,9 @@
     <main>
       <!-- form -->
       <section id="add-pizza-form-section">
-        <h1>Add pizza</h1>
         <div class="add-pizza-form-wrapper">
+          <h1>Add pizza</h1>
+
           <form id="add-pizza-form">
             <div class="name-group">
               <label for="name">Name</label>
@@ -23,12 +24,12 @@
             </div>
             <div class="price-group">
               <label for="price">Price</label>
-              <input type="text" id="price" placeholder="Price" required />
+              <input type="text" id="price" placeholder="E.g. 15.99" required />
               <span class="price-error-msg error"></span>
             </div>
             <div class="heat-group">
               <label for="heat">Heat</label>
-              <input type="number" id="heat" placeholder="Heat" />
+              <input type="number" id="heat" placeholder="Range 1-3" />
               <span class="heat-error-msg error"></span>
             </div>
             <div class="toppings-group">
@@ -36,7 +37,7 @@
               <input
                 type="text"
                 id="toppings"
-                placeholder="Toppings"
+                placeholder="E.g. Salami, artishokes, etc."
                 required
               />
               <span class="toppings-error-msg error"></span>
@@ -48,25 +49,28 @@
               <option value="pizza3">Pizza photo 3</option>
               <option value="pizza4">Pizza photo 4</option>
             </select>
-            <div>
+            <div class="select-image-wrapper">
               <img id="selectedImg" src="" alt="" />
             </div>
-            <button type="submit">Add pizza</button>
+            <button type="submit" class="btn-primary">Add pizza</button>
           </form>
+        </div>
+      </section>
+      <section>
+        <div class="menu-filter">
+          <h2>Filter items:</h2>
+          <select name="filterMenu" id="filterMenu">
+            <option value="byName">Name (a-z)</option>
+            <option value="byPriceLowesFirst">Price (low to high)</option>
+            <option value="byPriceHighestFirst">Price (high to low)</option>
+            <option value="byHeatHottest">Spiciness (hottest first)</option>
+            <option value="byHeatMildest">Spiciness (mildest first)</option>
+          </select>
         </div>
       </section>
       <!-- menu -->
       <section id="menu-output-section">
         <div id="menu-output-wrapper">
-          <div class="menu-filter">
-            <select name="filterMenu" id="filterMenu">
-              <option value="byName">Name</option>
-              <option value="byPriceLowesFirst">Price (low to high)</option>
-              <option value="byPriceHighestFirst">Price (high to low)</option>
-              <option value="byHeatHottest">Spiciness (hottest first)</option>
-              <option value="byHeatMildest">Spiciness (mildest first)</option>
-            </select>
-          </div>
           <div class="menu-output"></div>
         </div>
       </section>

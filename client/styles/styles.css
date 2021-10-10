@@ -3,9 +3,95 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn-primary {
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: rgb(230, 105, 105);
+  letter-spacing: 2px;
+  font-weight: bolder;
+  font-size: 0.9em;
+}
+
+.btn-primary:hover {
+  background-color: rgb(209, 96, 96);
+  cursor: pointer;
+}
+
+input {
+  outline: none;
 }
 
 /* form*/
+.add-pizza-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 10px;
+  padding-bottom: 20px;
+}
+
+#add-pizza-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  gap: 10px;
+}
+
+#add-pizza-form div {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+}
+
+#add-pizza-form div label {
+  font-weight: bold;
+}
+
+#add-pizza-form div input,
+#add-pizza-form select {
+  padding: 7px 5px;
+}
+
+.select-image-wrapper {
+  width: 250px;
+}
+
+.select-image-wrapper #selectedImg {
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.error {
+  color: tomato;
+  padding-top: 5px;
+}
+
+/* filter */
+
+.menu-filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+  padding-bottom: 30px;
+  margin-bottom: 20px;
+  background-color: rgb(219, 219, 219);
+}
+
+.menu-filter select {
+  padding: 7px 5px;
+  cursor: pointer;
+}
 
 /* menu */
 #menu-output-section {

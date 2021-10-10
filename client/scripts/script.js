@@ -28,9 +28,11 @@ const getItemsFromSessionStorage = () => {
 const updateItemsOnSessionStorage = (arr) => {
   sessionStorage.setItem('menuItems', JSON.stringify(arr));
 };
-// -- logic helpers
+
+// -- LOGIC HELPERS
 const itemsFromStorage = getItemsFromSessionStorage();
 
+// -- RENDERERS
 //pepper icon renderer
 const pizzaHeatIconRenderer = (number) => {
   let heat = '';
@@ -40,7 +42,7 @@ const pizzaHeatIconRenderer = (number) => {
   }
   return heat;
 };
-//pizza photo rendere
+//pizza photo renderer
 const pizzaPhotoRender = (photo) => {
   if (photo === 'pizza1') {
     return './assets/pizzaPhotos/pizzaPhoto1.jpg';
@@ -54,7 +56,7 @@ const pizzaPhotoRender = (photo) => {
     return '';
   }
 };
-//pizza photo rendere
+//pizza photo renderer
 const formPhotoRender = () => {
   if (pizzaPhotoSelect.value === 'pizza1') {
     selectedImgOutput.src = './assets/pizzaPhotos/pizzaPhoto1.jpg';
@@ -70,8 +72,9 @@ const formPhotoRender = () => {
 };
 //menu rederer
 const renderMenu = (pizzaArray) => {
-  menuOutput.innerHTML = pizzaArray.reduce((total, pizza) => {
-    total += `
+  if (pizzaArray) {
+    menuOutput.innerHTML = pizzaArray.reduce((total, pizza) => {
+      total += `
     <div class="menu-item" >
       <button class="delete-item" data-id=${pizza.name}>&#10005</button>
       <div class="menu-item__photo-wrapper">
@@ -80,7 +83,7 @@ const renderMenu = (pizzaArray) => {
       )}" alt="" class="menu-item__photo" />
       </div>
       <div class="menu-item__pizza-heat">${
-        pizza.heat ? pizzaHeatIconRenderer(+pizza.heat) : ''
+        pizza.heat ? pizzaHeatIconRenderer(+pizza.heat) : '---'
       }</div>
       <h3>${pizza.name}</h3>
       <span>€ ${pizza.price}</span>
@@ -88,18 +91,20 @@ const renderMenu = (pizzaArray) => {
     </div>
       `;
 
-    return total;
-  }, '');
+      return total;
+    }, '');
 
-  // delete button event
-  const deleteBtns = document.querySelectorAll('.delete-item');
-  deleteBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      deleteItemFromSessionStorage(e.target.dataset.id);
+    // delete button event
+    const deleteBtns = document.querySelectorAll('.delete-item');
+    deleteBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        deleteItemFromSessionStorage(e.target.dataset.id);
+      });
     });
-  });
+  }
 };
 
+// -- LOGIC
 //save pizza to session storage
 const saveItemToSessionStorage = (e) => {
   e.preventDefault();
@@ -160,12 +165,13 @@ const validateFormInputs = (pizzaItem) => {
   let valid = true;
   const { name, price, heat, toppings } = pizzaItem;
 
+  let isSameName;
+  if (itemsFromStorage) {
+    isSameName = itemsFromStorage.some((item) => item.name === name);
+  }
+
   //name - must be string, unique, max-length 30
-  if (
-    typeof name === !'string' ||
-    itemsFromStorage.some((item) => item.name === name) ||
-    name.length > 30
-  ) {
+  if (typeof name === !'string' || isSameName || name.length > 30) {
     showError(
       'Pizza name must be unique and no longer than 30 symbols.',
       '.name-error-msg'
@@ -208,11 +214,13 @@ const showError = (error, className) => {
 // -- -- S O R T I N G
 // sort items by name
 const sortByName = () => {
-  const sortedByNameArr = itemsFromStorage.sort((a, b) => {
-    if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
-  });
+  if (itemsFromStorage) {
+    const sortedByNameArr = itemsFromStorage.sort((a, b) => {
+      if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+    });
 
-  return sortedByNameArr;
+    return sortedByNameArr;
+  }
 };
 
 //select filter: form by select option
@@ -233,8 +241,8 @@ const filterMenuItems = (e) => {
   } else if (e.target.value === 'byHeatMildest') {
     const sortedByMildest = itemsFromStorage.sort((a, b) => +a.heat - +b.heat);
     renderMenu(sortedByMildest);
-  } else {
-    sortByName();
+  } else if (e.target.value === 'byName') {
+    renderMenu(sortByName());
   }
 };
 
