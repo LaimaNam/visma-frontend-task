@@ -1,4 +1,7 @@
 /* MOBILE FIRST */
+
+/* defaults */
+
 body {
   padding: 0;
   margin: 0;
@@ -25,7 +28,8 @@ input {
   outline: none;
 }
 
-/* form*/
+/* form  style */
+
 .add-pizza-form-wrapper {
   display: flex;
   flex-direction: column;
@@ -52,6 +56,8 @@ input {
 
 #add-pizza-form div label {
   font-weight: bold;
+  font-size: 0.9em;
+  padding-bottom: 3px;
 }
 
 #add-pizza-form div input,
@@ -74,7 +80,7 @@ input {
   padding-top: 5px;
 }
 
-/* filter */
+/* filter style */
 
 .menu-filter {
   display: flex;
@@ -93,7 +99,8 @@ input {
   cursor: pointer;
 }
 
-/* menu */
+/* menu style */
+
 #menu-output-section {
   padding: 15px;
 }
@@ -105,7 +112,8 @@ input {
   gap: 15px;
 }
 
-/* menu item */
+/* menu item style */
+
 .menu-item {
   width: 100%;
   display: flex;
@@ -161,6 +169,7 @@ input {
 }
 
 /* MEDIA QUERIES */
+
 @media only screen and (min-width: 768px) {
   .menu-item {
     width: calc(100% / 2 - 35px);

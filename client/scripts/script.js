@@ -119,7 +119,7 @@ const saveItemToSessionStorage = (e) => {
     name: pizzaName.value,
     price: Number(pizzaPrice.value).toFixed(2),
     heat: Number(pizzaHeat.value),
-    toppings: pizzaToppings.value.split(/,| /),
+    toppings: pizzaToppings.value.split(','),
     photo: pizzaPhotoSelect.value,
   };
 
