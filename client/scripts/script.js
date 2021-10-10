@@ -307,7 +307,7 @@ const filterMenuItems = (e) => {
     const sortedByMildest = itemsFromStorage.sort((a, b) => +a.heat - +b.heat);
     renderMenu(sortedByMildest);
   } else if (e.target.value === 'byName') {
-    renderMenu(sortByName());
+    renderMenu(sortByName(itemsFromStorage));
   }
 };
 
@@ -315,12 +315,24 @@ const filterMenuItems = (e) => {
  * -- -- E V E N T S
  */
 document.addEventListener('DOMContentLoaded', () => {
+  /**
+   * Menu filter select element on change event
+   */
   menufilter.addEventListener('change', filterMenuItems);
 
+  /**
+   * Form select element on change event
+   */
   pizzaPhotoSelect.addEventListener('change', formPhotoRender);
 
+  /**
+   * On page load renders menu sorted by name (default sorting)
+   */
   renderMenu(sortByName(itemsFromStorage));
 
+  /**
+   * Form event
+   */
   form.addEventListener('submit', (e) => {
     saveItemToSessionStorage(e);
     renderMenu(sortByName(itemsFromStorage));
