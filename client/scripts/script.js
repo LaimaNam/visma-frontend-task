@@ -17,23 +17,41 @@ const menuOutput = document.querySelector('.menu-output');
 // -- filter
 const menufilter = document.querySelector('#filterMenu');
 
-// -- FUNCTIONS
+/**
+ * FUNCTIONS
+ */
 
-// -- -- SessionStorage
-//get items from storage
+//  -- -- Session storage
+
+/**
+ * Gets items from storage and returns them.
+ */
 const getItemsFromSessionStorage = () => {
-  return JSON.parse(sessionStorage.getItem('menuItems'));
+  const items = JSON.parse(sessionStorage.getItem('menuItems'));
+  return items === null ? [] : items;
 };
-//update items in session storage
+
+/**
+ * Updates items in session storage
+ *
+ * @param {array} arr - takes an array of pizzas.
+ */
 const updateItemsOnSessionStorage = (arr) => {
   sessionStorage.setItem('menuItems', JSON.stringify(arr));
 };
 
-// -- LOGIC HELPERS
+/**
+ * Logic helper
+ */
 const itemsFromStorage = getItemsFromSessionStorage();
 
-// -- RENDERERS
-//pepper icon renderer
+//  -- -- UI renderers
+
+/**
+ * Renders pizza spiciness level and returns image of pepper *number* times.
+ *
+ * @param {number} number - number of spiciness level.
+ */
 const pizzaHeatIconRenderer = (number) => {
   let heat = '';
   for (let i = 0; i < number; i++) {
@@ -42,7 +60,12 @@ const pizzaHeatIconRenderer = (number) => {
   }
   return heat;
 };
-//pizza photo renderer
+
+/**
+ * Renders pizza photo according to chosen photo string in form.
+ *
+ * @param {string} photo - selected pizza photo.
+ */
 const pizzaPhotoRender = (photo) => {
   if (photo === 'pizza1') {
     return './assets/pizzaPhotos/pizzaPhoto1.jpg';
@@ -56,21 +79,39 @@ const pizzaPhotoRender = (photo) => {
     return '';
   }
 };
-//pizza photo renderer
+
+/**
+ * Renders small pizza photo inside the form, according to selected image.
+ */
 const formPhotoRender = () => {
-  if (pizzaPhotoSelect.value === 'pizza1') {
-    selectedImgOutput.src = './assets/pizzaPhotos/pizzaPhoto1.jpg';
-  } else if (pizzaPhotoSelect.value === 'pizza2') {
-    selectedImgOutput.src = './assets/pizzaPhotos/pizzaPhoto2.jpg';
-  } else if (pizzaPhotoSelect.value === 'pizza3') {
-    selectedImgOutput.src = './assets/pizzaPhotos/pizzaPhoto3.jpg';
-  } else if (pizzaPhotoSelect.value === 'pizza4') {
-    selectedImgOutput.src = './assets/pizzaPhotos/pizzaPhoto4.jpg';
-  } else {
-    selectedImgOutput.src = '';
+  selectedImgOutput.src = getPhotoLink(pizzaPhotoSelect.value);
+};
+
+/**
+ * Returns link to image for selected pizza photo.
+ *
+ * @param {string} selecValue - selected pizza photo value.
+ */
+const getPhotoLink = (selecValue) => {
+  switch (selecValue) {
+    case 'pizza1':
+      return './assets/pizzaPhotos/pizzaPhoto1.jpg';
+    case 'pizza2':
+      return './assets/pizzaPhotos/pizzaPhoto2.jpg';
+    case 'pizza3':
+      return './assets/pizzaPhotos/pizzaPhoto3.jpg';
+    case 'pizza4':
+      return './assets/pizzaPhotos/pizzaPhoto4.jpg';
+    default:
+      return '';
   }
 };
-//menu rederer
+
+/**
+ * Renders menu items
+ *
+ * @param {array} pizzaArray - array of pizzas from session storage.
+ */
 const renderMenu = (pizzaArray) => {
   if (pizzaArray) {
     menuOutput.innerHTML = pizzaArray.reduce((total, pizza) => {
@@ -104,16 +145,15 @@ const renderMenu = (pizzaArray) => {
   }
 };
 
-// -- LOGIC
-//save pizza to session storage
+// -- -- -- LOGIC
+
+/**
+ * Saves items to session storage.
+ *
+ * @param {event} e - submit form event.
+ */
 const saveItemToSessionStorage = (e) => {
   e.preventDefault();
-
-  let pizzaArr = [];
-
-  if (itemsFromStorage) {
-    pizzaArr = itemsFromStorage;
-  }
 
   const pizzaItem = {
     name: pizzaName.value,
@@ -125,9 +165,9 @@ const saveItemToSessionStorage = (e) => {
 
   if (validateFormInputs(pizzaItem)) {
     // adding pizza to the session storage
-    pizzaArr.push(pizzaItem);
+    itemsFromStorage.push(pizzaItem);
 
-    updateItemsOnSessionStorage(pizzaArr);
+    updateItemsOnSessionStorage(itemsFromStorage);
 
     // resetting the form and error messages if any
     selectedImgOutput.src = '';
@@ -138,7 +178,11 @@ const saveItemToSessionStorage = (e) => {
   }
 };
 
-//delete item from session storage
+/**
+ * Removes item from session storage and from UI.
+ *
+ * @param {string} id - menu item id.
+ */
 const deleteItemFromSessionStorage = (id) => {
   let indexOfPizzaToRemove;
 
@@ -160,11 +204,16 @@ const deleteItemFromSessionStorage = (id) => {
   }
 };
 
-//validate inputs
+/**
+ * Validates form inputs.
+ *
+ * @param {object} pizzaItem - object of pizza item.
+ */
 const validateFormInputs = (pizzaItem) => {
   let valid = true;
   const { name, price, heat, toppings } = pizzaItem;
 
+  //checking if item with this name already exists in session storage
   let isSameName;
   if (itemsFromStorage) {
     isSameName = itemsFromStorage.some((item) => item.name === name);
@@ -206,16 +255,28 @@ const validateFormInputs = (pizzaItem) => {
   return valid;
 };
 
-//create input validation error message
+/**
+ * Creates input validation error message
+ *
+ * @param {string} className - class name of error message tag
+ * @param {string} error - error message
+ */
 const showError = (error, className) => {
   document.querySelector(className).innerText = error;
 };
 
-// -- -- S O R T I N G
-// sort items by name
-const sortByName = () => {
-  if (itemsFromStorage) {
-    const sortedByNameArr = itemsFromStorage.sort((a, b) => {
+/**
+ *  -- -- S O R T I N G
+ */
+
+/**
+ * Default sorting by name.
+ *
+ * @param {array} items - array of menu items.
+ */
+const sortByName = (items) => {
+  if (items) {
+    const sortedByNameArr = items.sort((a, b) => {
       if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
     });
 
@@ -223,7 +284,11 @@ const sortByName = () => {
   }
 };
 
-//select filter: form by select option
+/**
+ * Menu items filter logic: sorts items by name, spiciness and price.
+ *
+ * @param {event} e - on change event of select.
+ */
 const filterMenuItems = (e) => {
   if (e.target.value === 'byPriceLowesFirst') {
     const sortedByLowestPrice = itemsFromStorage.sort(
@@ -246,16 +311,18 @@ const filterMenuItems = (e) => {
   }
 };
 
-// -- -- E V E N T S
+/**
+ * -- -- E V E N T S
+ */
 document.addEventListener('DOMContentLoaded', () => {
   menufilter.addEventListener('change', filterMenuItems);
 
   pizzaPhotoSelect.addEventListener('change', formPhotoRender);
 
-  renderMenu(sortByName());
+  renderMenu(sortByName(itemsFromStorage));
 
   form.addEventListener('submit', (e) => {
     saveItemToSessionStorage(e);
-    renderMenu(sortByName());
+    renderMenu(sortByName(itemsFromStorage));
   });
 });
